@@ -12,8 +12,8 @@ namespace cpp_db{
 
 class SelectStatement : public Statement{
  public:
-  explicit SelectStatement(const std::string &command)
-      : Statement(command)
+  explicit SelectStatement(Table& table, std::string command)
+      : Statement(table, std::move(command))
   {}
 
   void execute() override;

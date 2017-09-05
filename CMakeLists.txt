@@ -16,7 +16,7 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
 
-set(SOURCE_FILES src/main.cpp include/MetaCommand.h include/Statement.h include/Util.h include/Error.h include/InsertStatement.h include/SelectStatement.h src/Util.cpp src/MetaCommand.cpp src/Statement.cpp include/StatementBase.h src/InsertStatement.cpp src/SelectStatement.cpp)
+set(SOURCE_FILES src/main.cpp include/MetaCommand.h include/Statement.h include/Util.h include/Error.h include/InsertStatement.h include/SelectStatement.h src/Util.cpp src/MetaCommand.cpp src/Statement.cpp include/StatementBase.h src/InsertStatement.cpp src/SelectStatement.cpp include/Table.h src/Table.cpp include/Row.h src/Row.cpp)
 add_executable(${MY_PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${MY_PROJECT_NAME} PRIVATE include)

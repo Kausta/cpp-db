@@ -10,21 +10,22 @@
 
 using namespace cpp_db;
 
-void print_prompt(){
+void print_prompt() {
   std::cout << "db > ";
 }
 
-std::string read_input(){
-  auto line = std::string{};
-  if(!std::getline(std::cin, line)){
+std::string read_input() {
+  std::string line;
+  if (!std::getline(std::cin, line)) {
     throw std::runtime_error("Error reading input.");
   }
   return line;
 }
 
-int main(int /*argc*/, char* /*argv*/[]){
-  try{
-    while(true) {
+int main(int /*argc*/, char * /*argv*/[]) {
+  try {
+    Table table;
+    while (true) {
       print_prompt();
       auto input = read_input();
 
@@ -37,15 +38,17 @@ int main(int /*argc*/, char* /*argv*/[]){
           }
         }
 
-        auto statement = parse_statement(input);
+        auto statement = parse_statement(table, input);
         statement->execute();
         std::cout << "Executed.\n";
-      } catch (parse_error &err) {
-        std::cerr << err.what() << '\n';
+      } catch (error_base &err) {
+        std::cerr << "Error: " << err.what() << '\n';
       }
     }
-  } catch (std::exception& err){
-    std::cerr << "Error: " << err.what() << '\n';
-    return EXIT_FAILURE;
+  } catch (std::runtime_error &err) {
+    std::cerr << "Runtime Error: " << err.what() << '\n';
+  } catch (std::logic_error &err) {
+    std::cerr << "Logic Error: " << err.what() << '\n';
   }
+  return EXIT_FAILURE;
 }

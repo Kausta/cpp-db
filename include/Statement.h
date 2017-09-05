@@ -13,10 +13,11 @@
 #include "StatementBase.h"
 #include "InsertStatement.h"
 #include "SelectStatement.h"
+#include "Table.h"
 
 namespace cpp_db{
 
-std::unique_ptr<Statement> parse_statement(std::string command);
+std::unique_ptr<Statement> parse_statement(Table& table, std::string command);
 
 }
 

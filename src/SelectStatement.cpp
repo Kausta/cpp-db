@@ -8,5 +8,7 @@
 #include <iostream>
 
 void cpp_db::SelectStatement::execute() {
-  std::cout << "Select stmt\n";
+  for(size_t i = 0;i < table_.size();i++){
+    std::cout << table_[i] << '\n';
+  }
 }

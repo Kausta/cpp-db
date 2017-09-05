@@ -11,10 +11,15 @@
 
 namespace cpp_db{
 
-class parse_error : public std::runtime_error{
+class error_base : public std::runtime_error{
+ public:
+  explicit error_base(const std::string &description) : runtime_error(description) {}
+};
+
+class parse_error : public error_base{
  public:
   parse_error(const std::string &description, std::string command)
-      : runtime_error(description)
+      : error_base(description)
       , command_(std::move(command))
   {}
 

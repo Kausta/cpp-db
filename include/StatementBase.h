@@ -8,6 +8,7 @@
 
 #include <string>
 #include "Error.h"
+#include "Table.h"
 
 namespace cpp_db {
 class statement_parse_error : public parse_error {
@@ -18,14 +19,18 @@ class statement_parse_error : public parse_error {
 
 class Statement {
  public:
-  explicit Statement(std::string command)
-      : command_(std::move(command)) {}
+  explicit Statement(Table& table, std::string command)
+      : table_(table)
+      , command_(std::move(command)) {}
   virtual ~Statement() = default;
 
   virtual void execute() = 0;
 
+  Table& table() { return table_; }
+  const Table& table() const { return table_; }
   const std::string &command() const { return command_; }
- private:
+ protected:
+  Table& table_;
   std::string command_;
 };
 }
