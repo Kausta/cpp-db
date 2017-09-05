@@ -9,11 +9,7 @@
 #include <string>
 
 namespace util{
-  bool starts_with(const std::string& text, const std::string& search){
-    if(text.length() < search.length())
-      return false;
-    return text.compare(0, search.length(), search) == 0;
-  }
+  bool starts_with(const std::string& text, const std::string& search);
 }
 
 #endif //CPP_DB_UTIL_H

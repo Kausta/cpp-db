@@ -37,8 +37,8 @@ int main(int /*argc*/, char* /*argv*/[]){
           }
         }
 
-        auto const statement = Statement{input};
-        statement.execute();
+        auto statement = parse_statement(input);
+        statement->execute();
         std::cout << "Executed.\n";
       } catch (parse_error &err) {
         std::cerr << err.what() << '\n';
