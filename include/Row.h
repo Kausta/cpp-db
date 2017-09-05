@@ -12,8 +12,8 @@
 namespace cpp_db{
 
 struct Row{
-  static constexpr size_t USERNAME_SIZE = 32;
-  static constexpr size_t EMAIL_SIZE = 255;
+  static constexpr size_t USERNAME_SIZE = 32 + 1;
+  static constexpr size_t EMAIL_SIZE = 255 + 1;
 
   size_t id;
   std::array<char, USERNAME_SIZE> username;
