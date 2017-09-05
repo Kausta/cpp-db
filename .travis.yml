@@ -1,0 +1,22 @@
+dist: trusty
+sudo: false
+language: cpp
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - sourceline: 'ppa:ppsspp/cmake'
+    packages:
+      - g++-7
+      - cmake
+
+script:
+  - mkdir -p debug-build && cd debug-build
+  - CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7 cmake -DCMAKE_BUILD_TYPE=Debug ..
+  - cd ..
+  - cmake --build ./debug-build --target cpp-db -- -j 2
+  - mkdir -p release-build && cd release-build
+  - CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7 cmake -DCMAKE_BUILD_TYPE=Release ..
+  - cd ..
+  - cmake --build ./release-build --target cpp-db -- -j 2
