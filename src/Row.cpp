@@ -5,6 +5,7 @@
 
 #include "Row.h"
 
+#include <cstring>
 #include "Error.h"
 
 using namespace cpp_db;
