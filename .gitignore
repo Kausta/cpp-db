@@ -60,6 +60,7 @@
 # CMake
 cmake-build-debug/
 cmake-build-release/
+cmake-build-ubuntu/
 
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml

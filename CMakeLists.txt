@@ -1,16 +1,14 @@
 # influenced by https://github.com/lefticus/cpp_starter_project
 cmake_minimum_required(VERSION 3.7)
 
-if (NOT ${CMAKE_VERSION} VERSION_LESS 3.8)
-    set(CMAKE_CXX_STANDARD 17)
-endif()
-
 set(MY_PROJECT_NAME cpp-db)
 set(MY_PROJECT_VERSION 0.1)
 
 project(${MY_PROJECT_NAME} VERSION ${MY_PROJECT_VERSION} LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+if (NOT(${CMAKE_VERSION} VERSION_LESS 3.8))
+    set(CMAKE_CXX_STANDARD 17)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
