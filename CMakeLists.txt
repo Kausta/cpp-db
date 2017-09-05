@@ -13,10 +13,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if (MSVC)
     add_compile_options(/W4)
 else()
-    add_compile_options(-Wall -Wextra -Wpedantic)
+    add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
 
-set(SOURCE_FILES src/main.cpp)
+set(SOURCE_FILES src/main.cpp include/MetaCommand.h include/Statement.h include/Util.h include/ParseError.h)
 add_executable(${MY_PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${MY_PROJECT_NAME} PRIVATE include)
