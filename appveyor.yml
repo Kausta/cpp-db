@@ -13,3 +13,7 @@ build_script:
     cmake --build . --config "Debug"
 
     cmake --build . --config "Release"
+
+test_script:
+- cmd: >-
+    ctest -C "Debug"
