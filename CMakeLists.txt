@@ -18,14 +18,13 @@ set_target_properties(${MY_PROJECT_NAME} PROPERTIES
         CXX_STANDARD_REQUIRED YES
         CXX_EXTENSIONS NO)
 
-if (${CMAKE_VERSION} VERSION_LESS 3.8)
-    target_compile_options(${MY_PROJECT_NAME} PRIVATE --std=c++1z)
-endif ()
-
 if (MSVC)
-    target_compile_options(${MY_PROJECT_NAME} PRIVATE /W4)
+    target_compile_options(${MY_PROJECT_NAME} PRIVATE /W4 /std:c++latest)
 else ()
     target_compile_options(${MY_PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    if (${CMAKE_VERSION} VERSION_LESS 3.8)
+        target_compile_options(${MY_PROJECT_NAME} PRIVATE --std=c++1z)
+    endif ()
 endif ()
 
 target_include_directories(${MY_PROJECT_NAME} PRIVATE include)

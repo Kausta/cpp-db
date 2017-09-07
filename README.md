@@ -1,2 +1,2 @@
-# cpp-db [![Build Status](https://travis-ci.org/Kausta/cpp-db.svg?branch=master)](https://travis-ci.org/Kausta/cpp-db)
+# cpp-db [![Build Status](https://travis-ci.org/Kausta/cpp-db.svg?branch=master)](https://travis-ci.org/Kausta/cpp-db) [![Build status](https://ci.appveyor.com/api/projects/status/hbhawfiatx77ck0f/branch/master?svg=true)](https://ci.appveyor.com/project/Kausta/cpp-db/branch/master)
 A Simple C++ Database following https://github.com/cstack/db_tutorial

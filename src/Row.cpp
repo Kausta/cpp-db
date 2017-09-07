@@ -6,6 +6,8 @@
 #include "Row.h"
 
 #include <algorithm>
+#include <iostream>
+#include <string>
 #include "Error.h"
 
 using namespace cpp_db;
