@@ -6,35 +6,40 @@
 #ifndef CPP_DB_TABLE_H
 #define CPP_DB_TABLE_H
 
-#include <array>
+#include <vector>
 #include <memory>
 #include "Row.h"
 
-namespace cpp_db{
+namespace cpp_db {
 
-static_assert(sizeof(uint8_t) == 1);
+static_assert(sizeof(uint8_t)==1);
 using buffer_ptr = std::unique_ptr<uint8_t[]>;
 buffer_ptr allocate_buffer(size_t bytes);
 
-class Table{
+/**
+ * Current db table system, consists of pages
+ * Will change to a btree-like system in future
+ * Currently supports only the specific row
+ */
+class Table {
  public:
   static constexpr size_t PAGE_SIZE = 4096;
-  static constexpr size_t TABLE_MAX_PAGES = 100;
-  static constexpr size_t ROWS_PER_PAGE = PAGE_SIZE / sizeof(Row);
-  static constexpr size_t TABLE_MAX_ROWS = ROWS_PER_PAGE * TABLE_MAX_PAGES;
+  static constexpr size_t ROWS_PER_PAGE = PAGE_SIZE/sizeof(Row);
 
  public:
   Table() = default;
 
-  void push_row(const Row& row);
-  Row operator[](size_t row_num);
+  void push_row(const Row &row);
+  Row &operator[](size_t row_num);
+  const Row &operator[](size_t row_num) const;
 
   size_t size() const { return num_rows; }
  private:
-  std::array<buffer_ptr, TABLE_MAX_PAGES> pages;
+  std::vector<buffer_ptr> pages;
   size_t num_rows = 0;
 
-  void* row_slot(size_t row_num);
+  void *row_slot(size_t row_num);
+  const void *row_slot(size_t row_num) const;
 };
 
 }

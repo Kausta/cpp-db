@@ -8,8 +8,11 @@
 
 #include <string>
 
-namespace util{
-  bool starts_with(const std::string& text, const std::string& search);
+namespace util {
+/**
+* Helper for checking whether the given text starts with the search text
+*/
+bool starts_with(const std::string &text, const std::string &search);
 }
 
 #endif //CPP_DB_UTIL_H

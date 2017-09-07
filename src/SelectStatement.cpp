@@ -5,10 +5,8 @@
 
 #include "SelectStatement.h"
 
-#include <iostream>
-
 void cpp_db::SelectStatement::execute() {
-  for(size_t i = 0;i < table_.size();i++){
+  for (size_t i = 0; i < table_.size(); i++) {
     std::cout << table_[i] << '\n';
   }
 }

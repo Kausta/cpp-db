@@ -9,9 +9,12 @@
 #include <array>
 #include <iostream>
 
-namespace cpp_db{
+namespace cpp_db {
 
-struct Row{
+/**
+ * Current default row for the db, will change in the future for a complete system
+ */
+struct Row {
   static constexpr size_t USERNAME_SIZE = 32 + 1;
   static constexpr size_t EMAIL_SIZE = 255 + 1;
 
@@ -20,13 +23,10 @@ struct Row{
   std::array<char, EMAIL_SIZE> email;
 
   Row() = default;
-
-  static void serialize(const Row& row, void* destination);
-  static Row deserialize(void* source);
 };
 
-std::ostream& operator <<(std::ostream& os, const Row& row);
-std::istream& operator >>(std::istream& is, Row& row);
+std::ostream &operator<<(std::ostream &os, const Row &row);
+std::istream &operator>>(std::istream &is, Row &row);
 
 }
 

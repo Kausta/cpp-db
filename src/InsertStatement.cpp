@@ -5,7 +5,6 @@
 
 #include "InsertStatement.h"
 
-#include <iostream>
 #include <sstream>
 
 using namespace cpp_db;

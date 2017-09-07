@@ -9,18 +9,19 @@
 #include "StatementBase.h"
 #include "Table.h"
 
-namespace cpp_db{
+namespace cpp_db {
 
-class InsertStatement : public Statement{
+/**
+ * Insert command statement, currently supports only a specific row
+ */
+class InsertStatement : public Statement {
  public:
-  explicit InsertStatement(Table& table, std::string command)
-      : Statement(table, std::move(command))
-      , row_(parse_row())
-  {}
+  explicit InsertStatement(Table &table, std::string command)
+      : Statement(table, std::move(command)), row_(parse_row()) {}
 
   void execute() override;
 
-  const Row& row() const { return row_; }
+  const Row &row() const { return row_; }
  private:
   Row parse_row();
 

@@ -10,7 +10,7 @@
 using namespace cpp_db;
 
 MetaCommandType cpp_db::parse_meta_command(const std::string &command) {
-  if(command == ".exit"){
+  if (command==".exit") {
     return MetaCommandType::EXIT;
   }
   std::stringstream ss;

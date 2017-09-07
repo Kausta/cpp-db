@@ -16,7 +16,8 @@ void print_prompt() {
 
 std::string read_input() {
   std::string line;
-  if (!std::getline(std::cin, line)) {
+  // Discard whitespace and read the rest of the line
+  if (!std::getline(std::cin >> std::ws, line)) {
     throw std::runtime_error("Error reading input.");
   }
   return line;
@@ -24,6 +25,7 @@ std::string read_input() {
 
 int main(int /*argc*/, char * /*argv*/[]) {
   try {
+    // Initiate the default database table
     Table table;
     while (true) {
       print_prompt();
@@ -36,8 +38,10 @@ int main(int /*argc*/, char * /*argv*/[]) {
           switch (command_type) {
             case MetaCommandType::EXIT:return EXIT_SUCCESS;
           }
+          continue;
         }
 
+        // Parse and execute the command
         auto statement = parse_statement(table, input);
         statement->execute();
         std::cout << "Executed.\n";

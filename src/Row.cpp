@@ -5,9 +5,7 @@
 
 #include "Row.h"
 
-#include <cstring>
 #include <algorithm>
-#include <limits>
 #include "Error.h"
 
 using namespace cpp_db;
@@ -18,33 +16,27 @@ std::ostream &::cpp_db::operator<<(std::ostream &os, const Row &row) {
 std::istream &::cpp_db::operator>>(std::istream &is, Row &row) {
   std::string id, username, email;
   if (!(is >> id >> username >> email)) {
-    throw error_base("Cannot parse row!");
+    throw parse_error("Cannot parse row!");
   }
-  if(id[0] == '-'){
-    throw error_base("ID cannot be negative");
+  if (id[0]=='-') {
+    throw parse_error("ID cannot be negative", id);
   }
   try {
-    if(sizeof(size_t) == sizeof(uint32_t)){
+    if (sizeof(size_t)==sizeof(uint32_t)) {
       row.id = std::stoul(id);
     } else {
       row.id = std::stoull(id);
     }
-  } catch (std::logic_error& err){
-    throw error_base("ID too large!");
+  } catch (std::logic_error &err) {
+    throw parse_error("ID too large!", id);
+  }
+  if (username.length() > Row::USERNAME_SIZE) {
+    throw parse_error("Username too long", username);
   }
   std::copy(username.begin(), username.end(), row.username.begin());
   if (email.length() > Row::EMAIL_SIZE) {
-    throw error_base("Email too long");
+    throw parse_error("Email too long", email);
   }
   std::copy(email.begin(), email.end(), row.email.begin());
   return is;
-}
-
-void Row::serialize(const Row &row, void *destination) {
-  memcpy(destination, &row, sizeof(Row));
-}
-Row Row::deserialize(void *source) {
-  Row row{};
-  memcpy(&row, source, sizeof(Row));
-  return row;
 }

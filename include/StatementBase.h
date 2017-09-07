@@ -11,26 +11,39 @@
 #include "Table.h"
 
 namespace cpp_db {
+/**
+ * Statement specific parse error command
+ */
 class statement_parse_error : public parse_error {
  public:
   statement_parse_error(const std::string &description, std::string command)
       : parse_error(description, std::move(command)) {}
 };
 
+/**
+ * Base class for all statements
+ */
 class Statement {
  public:
-  explicit Statement(Table& table, std::string command)
-      : table_(table)
-      , command_(std::move(command)) {}
-  virtual ~Statement() = default;
+  /**
+   * Statement constructor taking the stmt command and a reference to current db table
+   * @param table Current db table
+   * @param command Command to parse and execute
+   */
+  explicit Statement(Table &table, std::string command)
+      : table_(table), command_(std::move(command)) {}
+  virtual ~Statement() noexcept = default;
 
+  /**
+   * Executes the given command
+   */
   virtual void execute() = 0;
 
-  Table& table() { return table_; }
-  const Table& table() const { return table_; }
+  Table &table() { return table_; }
+  const Table &table() const { return table_; }
   const std::string &command() const { return command_; }
  protected:
-  Table& table_;
+  Table &table_;
   std::string command_;
 };
 }

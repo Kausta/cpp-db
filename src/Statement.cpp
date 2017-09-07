@@ -7,11 +7,10 @@
 
 #include <sstream>
 #include "Util.h"
-#include "Table.h"
 
 using namespace cpp_db;
 
-std::unique_ptr<Statement> cpp_db::parse_statement(Table& table, std::string command) {
+std::unique_ptr<Statement> cpp_db::parse_statement(Table &table, std::string command) {
   if (util::starts_with(command, "insert")) {
     return std::make_unique<InsertStatement>(table, std::move(command));
   }

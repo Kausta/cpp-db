@@ -8,13 +8,15 @@
 
 #include "StatementBase.h"
 
-namespace cpp_db{
+namespace cpp_db {
 
-class SelectStatement : public Statement{
+/**
+ * Select command statement, currently supports only printing all rows
+ */
+class SelectStatement : public Statement {
  public:
-  explicit SelectStatement(Table& table, std::string command)
-      : Statement(table, std::move(command))
-  {}
+  explicit SelectStatement(Table &table, std::string command)
+      : Statement(table, std::move(command)) {}
 
   void execute() override;
 
