@@ -16,10 +16,10 @@ namespace cpp_db {
  */
 class InsertStatement : public Statement {
  public:
-  explicit InsertStatement(Table &table, std::string command)
-      : Statement(table, std::move(command)), row_(parse_row()) {}
+  explicit InsertStatement(std::string command)
+      : Statement(std::move(command)), row_(parse_row()) {}
 
-  void execute() override;
+  void execute(Table& table) override;
 
   const Row &row() const { return row_; }
  private:

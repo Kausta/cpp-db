@@ -4,9 +4,11 @@
 //
 
 #include "SelectStatement.h"
+#include "IOManager.h"
 
-void cpp_db::SelectStatement::execute() {
-  for (size_t i = 0; i < table_.size(); i++) {
-    std::cout << table_[i] << '\n';
+void cpp_db::SelectStatement::execute(Table& table) {
+  IOManager& io_manager = IOManager::instance();
+  for (size_t i = 0; i < table.size(); i++) {
+     io_manager.out() << table[i] << '\n';
   }
 }

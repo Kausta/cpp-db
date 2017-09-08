@@ -21,25 +21,43 @@ else ()
         target_compile_options(${ARGS_PRJ} INTERFACE --std=c++1z)
     endif ()
 endif ()
+function(SetCxxVersionFor target)
+    if (NOT (${CMAKE_VERSION} VERSION_LESS 3.8))
+        set_target_properties(${target} PROPERTIES CXX_STANDARD 17)
+        message("cmake >= 3.8")
+    endif ()
 
+    set_target_properties(${target} PROPERTIES
+            CXX_STANDARD_REQUIRED YES
+            CXX_EXTENSIONS NO)
+endfunction()
+
+# Set external libraries
+set(EXT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 # Set Catch
-set(CATCH_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests/catch/)
+set(CATCH_INCLUDE_DIR ${EXT_SOURCE_DIR}/catch/)
 add_library(Catch INTERFACE)
 target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 
-set(SOURCE_FILES src/main.cpp include/MetaCommand.h include/Statement.h include/Util.h include/Error.h include/InsertStatement.h include/SelectStatement.h src/Util.cpp src/MetaCommand.cpp src/Statement.cpp include/StatementBase.h src/InsertStatement.cpp src/SelectStatement.cpp include/Table.h src/Table.cpp include/Row.h src/Row.cpp src/Error.cpp)
-add_executable(${MY_PROJECT_NAME} ${SOURCE_FILES})
+# Add the library
+set(MY_LIB_NAME ${MY_PROJECT_NAME}-lib)
+set(SOURCE_FILES include/MetaCommand.h include/Statement.h include/Util.h include/Error.h include/InsertStatement.h include/SelectStatement.h src/Util.cpp src/MetaCommand.cpp src/Statement.cpp include/StatementBase.h src/InsertStatement.cpp src/SelectStatement.cpp include/Table.h src/Table.cpp include/Row.h src/Row.cpp src/Error.cpp include/IOManager.h)
+add_library(${MY_LIB_NAME} ${SOURCE_FILES})
+
+target_include_directories(${MY_LIB_NAME} PRIVATE include)
+target_link_libraries(${MY_LIB_NAME} PRIVATE ${WARNINGS_PRJ} ${ARGS_PRJ})
+
+SetCxxVersionFor(${MY_LIB_NAME})
+
+# Add the executable and link to the library part
+add_executable(${MY_PROJECT_NAME} src/main.cpp)
+
 target_link_libraries(${MY_PROJECT_NAME} PRIVATE ${WARNINGS_PRJ} ${ARGS_PRJ})
+target_link_libraries(${MY_PROJECT_NAME} PRIVATE ${MY_LIB_NAME})
 
-if (NOT (${CMAKE_VERSION} VERSION_LESS 3.8))
-    set_target_properties(${MY_PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
-    message("cmake >= 3.8")
-endif ()
-
-set_target_properties(${MY_PROJECT_NAME} PROPERTIES
-        CXX_STANDARD_REQUIRED YES
-        CXX_EXTENSIONS NO)
+SetCxxVersionFor(${MY_PROJECT_NAME})
 
 target_include_directories(${MY_PROJECT_NAME} PRIVATE include)
 
@@ -47,18 +65,18 @@ enable_testing()
 
 set(TEST_PROJECT ${MY_PROJECT_NAME}-tests)
 
-set(TEST_SOURCE_FILES tests/test_main.cpp)
+# Add the test project and link to the library part
+set(TEST_SOURCE_FILES tests/test_main.cpp tests/meta_command.cpp)
 add_executable(${TEST_PROJECT} ${TEST_SOURCE_FILES})
+
 target_link_libraries(${TEST_PROJECT} PRIVATE ${WARNINGS_PRJ} ${ARGS_PRJ})
 target_link_libraries(${TEST_PROJECT} PRIVATE Catch)
+target_link_libraries(${TEST_PROJECT} PRIVATE ${MY_LIB_NAME})
 
-if (NOT (${CMAKE_VERSION} VERSION_LESS 3.8))
-    set_target_properties(${TEST_PROJECT} PROPERTIES CXX_STANDARD 17)
-    message("cmake >= 3.8")
-endif ()
+SetCxxVersionFor(${TEST_PROJECT})
 
-set_target_properties(${TEST_PROJECT} PROPERTIES
-        CXX_STANDARD_REQUIRED YES
-        CXX_EXTENSIONS NO)
+target_include_directories(${TEST_PROJECT} PRIVATE include)
 
-add_test(NAME CppDbTests COMMAND ${TEST_PROJECT})
+#set(PARSE_CATCH_TESTS_VERBOSE ON)
+include(ParseAndAddCatchTests)
+ParseAndAddCatchTests(${TEST_PROJECT})

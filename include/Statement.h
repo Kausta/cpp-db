@@ -17,12 +17,11 @@
 namespace cpp_db {
 /**
  * Parses the given statement and returns a unique ptr to appropriate statement type
- * @param table Reference to current db table
  * @param command Command to parse ( and to execute on the table)
  * @return Appropriate statement class
  * @throws statement_parse_error if the statement is not known
  */
-std::unique_ptr<Statement> parse_statement(Table &table, std::string command);
+std::unique_ptr<Statement> parse_statement(std::string command);
 
 }
 

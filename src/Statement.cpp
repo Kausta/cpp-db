@@ -10,12 +10,12 @@
 
 using namespace cpp_db;
 
-std::unique_ptr<Statement> cpp_db::parse_statement(Table &table, std::string command) {
+std::unique_ptr<Statement> cpp_db::parse_statement(std::string command) {
   if (util::starts_with(command, "insert")) {
-    return std::make_unique<InsertStatement>(table, std::move(command));
+    return std::make_unique<InsertStatement>(std::move(command));
   }
   if (util::starts_with(command, "select")) {
-    return std::make_unique<SelectStatement>(table, std::move(command));
+    return std::make_unique<SelectStatement>(std::move(command));
   }
 
   std::stringstream ss;

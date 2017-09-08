@@ -15,10 +15,10 @@ namespace cpp_db {
  */
 class SelectStatement : public Statement {
  public:
-  explicit SelectStatement(Table &table, std::string command)
-      : Statement(table, std::move(command)) {}
+  explicit SelectStatement(std::string command)
+      : Statement(std::move(command)) {}
 
-  void execute() override;
+  void execute(Table& table) override;
 
 };
 

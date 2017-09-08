@@ -24,11 +24,15 @@ std::istream &::cpp_db::operator>>(std::istream &is, Row &row) {
     throw parse_error("ID cannot be negative", id);
   }
   try {
-    if (sizeof(size_t)==sizeof(uint32_t)) {
+#ifndef __CLION_IDE__
+    if constexpr (sizeof(size_t)==sizeof(uint32_t)) {
       row.id = std::stoul(id);
     } else {
+#endif
       row.id = std::stoull(id);
+#ifndef __CLION_IDE__
     }
+#endif
   } catch (std::logic_error &err) {
     throw parse_error("ID too large!", id);
   }

@@ -9,8 +9,8 @@
 
 using namespace cpp_db;
 
-void cpp_db::InsertStatement::execute() {
-  table_.push_row(row_);
+void cpp_db::InsertStatement::execute(Table& table) {
+  table.push_row(row_);
 }
 Row cpp_db::InsertStatement::parse_row() {
   std::stringstream ss(command_);

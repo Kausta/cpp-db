@@ -27,23 +27,20 @@ class Statement {
  public:
   /**
    * Statement constructor taking the stmt command and a reference to current db table
-   * @param table Current db table
    * @param command Command to parse and execute
    */
-  explicit Statement(Table &table, std::string command)
-      : table_(table), command_(std::move(command)) {}
+  explicit Statement(std::string command)
+      : command_(std::move(command)) {}
   virtual ~Statement() noexcept = default;
 
   /**
    * Executes the given command
+   * @param table Current DB table to execute the command on
    */
-  virtual void execute() = 0;
+  virtual void execute(Table& table) = 0;
 
-  Table &table() { return table_; }
-  const Table &table() const { return table_; }
   const std::string &command() const { return command_; }
  protected:
-  Table &table_;
   std::string command_;
 };
 }
